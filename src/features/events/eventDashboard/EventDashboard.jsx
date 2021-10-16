@@ -2,15 +2,20 @@ import { Grid, GridColumn } from "semantic-ui-react";
 import EventForm from "../eventForm/EventForm";
 import EventList from "./EventList";
 import { sampleData } from "../../../app/api/sampleData";
+import { useState } from "react";
 
 export default function EventDashboard({ formOpen, setFormOpen }) {
+  const [events, setEvents] = useState(sampleData);
+
   return (
     <Grid>
       <GridColumn width={10}>
-        <EventList events={sampleData} />
+        <EventList events={events} />
       </GridColumn>
       <GridColumn width={6}>
-        {formOpen && <EventForm setFormOpen={setFormOpen} />}
+        {formOpen && (
+          <EventForm setFormOpen={setFormOpen} setEvents={setEvents} />
+        )}
       </GridColumn>
     </Grid>
   );
