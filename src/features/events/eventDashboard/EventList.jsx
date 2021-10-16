@@ -1,3 +1,12 @@
+import EventListItem from "./EventListItem";
+
 export default function EventList() {
-  return <h1>List</h1>;
+  return (
+    <>
+      <EventListItem />
+      <EventListItem />
+      <EventListItem />
+      <EventListItem />
+    </>
+  );
 }
