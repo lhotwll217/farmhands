@@ -6,7 +6,9 @@ function App() {
   return (
     <>
       <NavBar />
-      <EventDashboard />
+      <Container className='main'>
+        <EventDashboard />
+      </Container>
     </>
   );
 }
