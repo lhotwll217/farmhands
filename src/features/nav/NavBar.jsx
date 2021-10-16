@@ -5,7 +5,11 @@ export default function NavBar() {
     <Menu inverted fixed='top'>
       <Container>
         <MenuItem>
-          <img src='/assets/logo.png' alt='logo'></img>
+          <img
+            src='/assets/logo.png'
+            alt='logo'
+            style={{ marginRight: "15px" }}
+          />
           Re-vents
         </MenuItem>
         <MenuItem name='Events' />
