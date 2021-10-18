@@ -23,12 +23,12 @@ import {
 //   color: "white",
 // };
 
-export default function EventDetailedHeader() {
+export default function EventDetailedHeader({ event }) {
   return (
     <SegmentGroup>
       <Segment basic attached='top' style={{ padding: "0" }}>
         <Image
-          src={`/assets/categoryImages/drinks.jpg`}
+          src={`/assets/categoryImages/${event.category}.jpg`}
           fluid
           style={{ filter: "brightness(30%)" }}
         />
@@ -49,12 +49,12 @@ export default function EventDetailedHeader() {
               <ItemContent>
                 <Header
                   size='huge'
-                  content='Event Title'
+                  content={event.title}
                   style={{ color: "white" }}
                 />
-                <p>Event Date</p>
+                <p>{event.date}</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by <strong>{event.hostedBy}</strong>
                 </p>
               </ItemContent>
             </Item>

@@ -7,7 +7,7 @@ import {
   ItemGroup,
 } from "semantic-ui-react";
 
-export default function EventDetailedSidebar() {
+export default function EventDetailedSidebar({ attendees }) {
   return (
     <>
       <Segment
@@ -18,26 +18,23 @@ export default function EventDetailedSidebar() {
         inverted
         color='teal'
       >
-        2 People Going
+        {attendees.length} {attendees.length > 1 ? "People" : "Person"} Going
       </Segment>
       <Segment attached>
         <ItemGroup relaxed divided>
-          <Item style={{ position: "relative" }}>
-            <ItemImage size='tiny' src='/assets/user.png' />
-            <ItemContent verticalAlign='middle'>
-              <ItemHeader as='h3'>
-                <span>Tom</span>
-              </ItemHeader>
-            </ItemContent>
-          </Item>
-          <Item style={{ position: "relative" }}>
-            <ItemImage size='tiny' src='/assets/user.png' />
-            <ItemContent verticalAlign='middle'>
-              <ItemHeader as='h3'>
-                <span>Bob</span>
-              </ItemHeader>
-            </ItemContent>
-          </Item>
+          {attendees.map((attendee) => (
+            <Item key={attendee.id} style={{ position: "relative" }}>
+              <ItemImage
+                size='tiny'
+                src={attendee.photoURL || "/assets/user.png"}
+              />
+              <ItemContent verticalAlign='middle'>
+                <ItemHeader as='h3'>
+                  <span>{attendee.displayName}</span>
+                </ItemHeader>
+              </ItemContent>
+            </Item>
+          ))}
         </ItemGroup>
       </Segment>
     </>
