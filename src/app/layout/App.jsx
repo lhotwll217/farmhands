@@ -22,7 +22,7 @@ function App() {
               <Route exact path='/events/:id' component={EventDetailedPage} />
               <Route
                 exact
-                path={["/createEvent", "manage/:id"]}
+                path={["/createEvent", "/manage/:id"]}
                 component={EventForm}
               />
             </Container>
