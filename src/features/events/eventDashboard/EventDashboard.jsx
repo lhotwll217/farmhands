@@ -5,8 +5,6 @@ import EventList from "./EventList";
 export default function EventDashboard() {
   const { events } = useSelector((state) => state.event);
 
-  function handleDeleteEvent(eventId) {}
-
   return (
     <Grid>
       <GridColumn width={10}>
