@@ -1,17 +1,21 @@
-import { Header, Segment, FormField, Button } from "semantic-ui-react";
-import { useState } from "react";
+import { Header, Segment, FormField, Button, Label } from "semantic-ui-react";
 // import cuid from "cuid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { createEvent, updateEvent } from "../eventActions";
-import { Formik, Form, Field } from "formik";
+// import { createEvent, updateEvent } from "../eventActions";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
   );
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required("You must provide a title"),
+  });
 
   const initialValues = selectedEvent ?? {
     title: "",
@@ -21,8 +25,6 @@ export default function EventForm({ match, history }) {
     venue: "",
     date: "",
   };
-
-  const [values, setValues] = useState(initialValues);
 
   // function handleFormSubmit() {
   //   selectedEvent
@@ -39,20 +41,21 @@ export default function EventForm({ match, history }) {
   //   history.push("/events");
   // }
 
-  // function handleInputChange(e) {
-  //   const { name, value } = e.target;
-  //   setValues({ ...values, [name]: value });
-  // }
   return (
     <Segment clearing>
       <Header content={selectedEvent ? "Edit The Event" : "Create New Event"} />
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
       >
         <Form className='ui form'>
           <FormField>
             <Field placeholder='Event Title' name='title' />
+            <ErrorMessage
+              name='title'
+              render={(error) => <Label basic color='red' content={error} />}
+            />
           </FormField>
           <FormField>
             <Field placeholder='Category' name='category' />
