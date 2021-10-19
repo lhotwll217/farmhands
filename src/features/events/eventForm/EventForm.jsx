@@ -1,11 +1,12 @@
-import { Header, Segment, FormField, Button, Label } from "semantic-ui-react";
-// import cuid from "cuid";
+import { Header, Segment, Button } from "semantic-ui-react";
+import cuid from "cuid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-// import { createEvent, updateEvent } from "../eventActions";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { createEvent, updateEvent } from "../eventActions";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import MyTextInput from "../../../app/common/form/MyTextInput";
 
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
@@ -15,6 +16,11 @@ export default function EventForm({ match, history }) {
 
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),
+    category: Yup.string().required("You must provide a category"),
+    description: Yup.string().required("You must provide a description"),
+    city: Yup.string().required("You must provide a city"),
+    venue: Yup.string().required("You must provide a venue"),
+    date: Yup.string().required("You must provide a date"),
   });
 
   const initialValues = selectedEvent ?? {
@@ -26,52 +32,40 @@ export default function EventForm({ match, history }) {
     date: "",
   };
 
-  // function handleFormSubmit() {
-  //   selectedEvent
-  //     ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-  //     : dispatch(
-  //         createEvent({
-  //           ...values,
-  //           id: cuid(),
-  //           hostedBy: "Bob",
-  //           attendees: [],
-  //           hostPhotoURL: "/assets/user.png",
-  //         })
-  //       );
-  //   history.push("/events");
-  // }
-
   return (
     <Segment clearing>
       <Header content={selectedEvent ? "Edit The Event" : "Create New Event"} />
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+          selectedEvent
+            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+            : dispatch(
+                createEvent({
+                  ...values,
+                  id: cuid(),
+                  hostedBy: "Bob",
+                  attendees: [],
+                  hostPhotoURL: "/assets/user.png",
+                })
+              );
+          history.push("/events");
+        }}
         validationSchema={validationSchema}
       >
         <Form className='ui form'>
-          <FormField>
-            <Field placeholder='Event Title' name='title' />
-            <ErrorMessage
-              name='title'
-              render={(error) => <Label basic color='red' content={error} />}
-            />
-          </FormField>
-          <FormField>
-            <Field placeholder='Category' name='category' />
-          </FormField>
-          <FormField>
-            <Field placeholder='Description' name='description' />
-          </FormField>
-          <FormField>
-            <Field placeholder='City' name='city' />
-          </FormField>
-          <FormField>
-            <Field placeholder='Venue' name='venue' />
-          </FormField>
-          <FormField>
-            <Field placeholder='Date' name='date' type='date' />
-          </FormField>
+          <Header sub color='teal' content='Event Details' />
+          <MyTextInput placeholder='Event Title' name='title' />
+
+          <MyTextInput placeholder='Category' name='category' />
+
+          <MyTextInput placeholder='Description' name='description' />
+          <Header sub color='teal' content='Event Location Details' />
+          <MyTextInput placeholder='City' name='city' />
+
+          <MyTextInput placeholder='Venue' name='venue' />
+
+          <MyTextInput placeholder='Date' name='date' type='date' />
 
           <Button type='submit' floated='right' positive content='Submit' />
           <Button
