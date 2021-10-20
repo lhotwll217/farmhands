@@ -7,6 +7,7 @@ import { createEvent, updateEvent } from "../eventActions";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
+import MyTextArea from "../../../app/common/form/MyTextArea";
 
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ export default function EventForm({ match, history }) {
 
           <MyTextInput placeholder='Category' name='category' />
 
-          <MyTextInput placeholder='Description' name='description' />
+          <MyTextArea placeholder='Description' name='description' rows={3} />
           <Header sub color='teal' content='Event Location Details' />
           <MyTextInput placeholder='City' name='city' />
 
