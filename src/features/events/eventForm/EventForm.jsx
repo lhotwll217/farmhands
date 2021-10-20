@@ -8,7 +8,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
-
+import MySelectInput from "../../../app/common/form/MySelectInput.jsx";
+import { categoryOptions } from "../../../app/common/form/categoryOptions.js";
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
@@ -57,10 +58,14 @@ export default function EventForm({ match, history }) {
         <Form className='ui form'>
           <Header sub color='teal' content='Event Details' />
           <MyTextInput placeholder='Event Title' name='title' />
-
-          <MyTextInput placeholder='Category' name='category' />
+          <MySelectInput
+            placeholder='Category'
+            name='category'
+            options={categoryOptions}
+          />
 
           <MyTextArea placeholder='Description' name='description' rows={3} />
+
           <Header sub color='teal' content='Event Location Details' />
           <MyTextInput placeholder='City' name='city' />
 
