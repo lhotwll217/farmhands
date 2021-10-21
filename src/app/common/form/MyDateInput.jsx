@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { FormField, Label } from "semantic-ui-react";
 import "react-datepicker/dist/react-datepicker.css";
 export default function MyDateInput({ label, ...props }) {
-  const [field, meta, helpers] = useField(props);
+  const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
 
   return (
