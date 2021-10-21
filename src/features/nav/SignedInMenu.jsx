@@ -22,7 +22,7 @@ export default function SignedInMenu() {
             as={Link}
             to='/createEvent'
             text='Create Event'
-            icon='icon'
+            icon='plus'
           />
           <DropdownItem text='My profile' icon='user' />
           <DropdownItem

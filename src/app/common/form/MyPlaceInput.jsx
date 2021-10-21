@@ -16,7 +16,6 @@ import PlacesAutocomplete, {
 
 export default function MyPlaceInput({ label, options, ...props }) {
   const [field, meta, helpers] = useField(props);
-  console.log(field);
 
   function handleSelect(address) {
     geocodeByAddress(address)
@@ -32,12 +31,14 @@ export default function MyPlaceInput({ label, options, ...props }) {
     }
   }
 
+  console.log(field.value);
+
   return (
     <PlacesAutocomplete
       value={field.value["address"]}
       onChange={(value) => helpers.setValue({ address: value })}
       onSelect={(value) => handleSelect(value)}
-      searchOtions={options}
+      searchOptions={options}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <FormField error={meta.touched && !!meta.error}>
@@ -45,8 +46,8 @@ export default function MyPlaceInput({ label, options, ...props }) {
             {...getInputProps({
               name: field.name,
               onBlur: (e) => handleBlur(e),
+              ...props,
             })}
-            {...props}
           />
           {meta.touched && meta.error ? (
             <Label basic color='red'>

@@ -1,3 +1,4 @@
+/* global google */
 import { Header, Segment, Button } from "semantic-ui-react";
 import cuid from "cuid";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ import MySelectInput from "../../../app/common/form/MySelectInput.jsx";
 import MyDateInput from "../../../app/common/form/MyDateInput.jsx";
 import { categoryOptions } from "../../../app/common/form/categoryOptions.js";
 import MyPlaceInput from "../../../app/common/form/MyPlaceInput";
+
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
@@ -35,8 +37,8 @@ export default function EventForm({ match, history }) {
     title: "",
     category: "",
     description: "",
-    city: "",
-    venue: "",
+    city: { address: "", latLng: null },
+    venue: { address: "", latLng: null },
     date: "",
   };
 
@@ -61,7 +63,7 @@ export default function EventForm({ match, history }) {
         }}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, dirty, isValid }) => (
+        {({ isSubmitting, dirty, isValid, values }) => (
           <Form className='ui form'>
             <Header sub color='teal' content='Event Details' />
             <MyTextInput placeholder='Event Title' name='title' />
@@ -70,13 +72,23 @@ export default function EventForm({ match, history }) {
               name='category'
               options={categoryOptions}
             />
+            {console.log(values)}
 
             <MyTextArea placeholder='Description' name='description' rows={3} />
 
             <Header sub color='teal' content='Event Location Details' />
             <MyPlaceInput placeholder='City' name='city' />
 
-            <MyPlaceInput placeholder='Venue' name='venue' />
+            <MyPlaceInput
+              placeholder='Venue'
+              name='venue'
+              disabled={!values.city.latLng}
+              options={{
+                location: new google.maps.LatLng(values.city.latLng),
+                radius: 100,
+                types: ["establishment"],
+              }}
+            />
 
             <MyDateInput
               name='date'
