@@ -11,6 +11,7 @@ import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput.jsx";
 import MyDateInput from "../../../app/common/form/MyDateInput.jsx";
 import { categoryOptions } from "../../../app/common/form/categoryOptions.js";
+import MyPlaceInput from "../../../app/common/form/MyPlaceInput";
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
   const selectedEvent = useSelector((state) =>
@@ -69,7 +70,7 @@ export default function EventForm({ match, history }) {
             <MyTextArea placeholder='Description' name='description' rows={3} />
 
             <Header sub color='teal' content='Event Location Details' />
-            <MyTextInput placeholder='City' name='city' />
+            <MyPlaceInput placeholder='City' name='city' />
 
             <MyTextInput placeholder='Venue' name='venue' />
 
