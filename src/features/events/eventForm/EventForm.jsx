@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput.jsx";
+import MyDateInput from "../../../app/common/form/MyDateInput.jsx";
 import { categoryOptions } from "../../../app/common/form/categoryOptions.js";
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
@@ -71,7 +72,14 @@ export default function EventForm({ match, history }) {
 
           <MyTextInput placeholder='Venue' name='venue' />
 
-          <MyTextInput placeholder='Date' name='date' type='date' />
+          <MyDateInput
+            name='date'
+            placeholder='Event Date'
+            timeFormat='HH:mm'
+            showTimeSelect
+            timeCaption='time'
+            dateFormat='MMMM d, yyyy h:mm a'
+          />
 
           <Button type='submit' floated='right' positive content='Submit' />
           <Button
