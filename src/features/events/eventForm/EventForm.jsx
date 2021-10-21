@@ -56,40 +56,49 @@ export default function EventForm({ match, history }) {
         }}
         validationSchema={validationSchema}
       >
-        <Form className='ui form'>
-          <Header sub color='teal' content='Event Details' />
-          <MyTextInput placeholder='Event Title' name='title' />
-          <MySelectInput
-            placeholder='Category'
-            name='category'
-            options={categoryOptions}
-          />
+        {({ isSubmitting, dirty, isValid }) => (
+          <Form className='ui form'>
+            <Header sub color='teal' content='Event Details' />
+            <MyTextInput placeholder='Event Title' name='title' />
+            <MySelectInput
+              placeholder='Category'
+              name='category'
+              options={categoryOptions}
+            />
 
-          <MyTextArea placeholder='Description' name='description' rows={3} />
+            <MyTextArea placeholder='Description' name='description' rows={3} />
 
-          <Header sub color='teal' content='Event Location Details' />
-          <MyTextInput placeholder='City' name='city' />
+            <Header sub color='teal' content='Event Location Details' />
+            <MyTextInput placeholder='City' name='city' />
 
-          <MyTextInput placeholder='Venue' name='venue' />
+            <MyTextInput placeholder='Venue' name='venue' />
 
-          <MyDateInput
-            name='date'
-            placeholder='Event Date'
-            timeFormat='HH:mm'
-            showTimeSelect
-            timeCaption='time'
-            dateFormat='MMMM d, yyyy h:mm a'
-          />
+            <MyDateInput
+              name='date'
+              placeholder='Event Date'
+              timeFormat='HH:mm'
+              showTimeSelect
+              timeCaption='time'
+              dateFormat='MMMM d, yyyy h:mm a'
+            />
 
-          <Button type='submit' floated='right' positive content='Submit' />
-          <Button
-            as={Link}
-            to={"/events"}
-            type='submit'
-            floated='right'
-            content='Cancel'
-          />
-        </Form>
+            <Button
+              disabled={!isValid || !dirty || isSubmitting}
+              type='submit'
+              floated='right'
+              positive
+              content='Submit'
+            />
+            <Button
+              disabled={isSubmitting}
+              as={Link}
+              to={"/events"}
+              type='submit'
+              floated='right'
+              content='Cancel'
+            />
+          </Form>
+        )}
       </Formik>
     </Segment>
   );
