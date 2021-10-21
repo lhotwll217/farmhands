@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
@@ -9,6 +10,13 @@ import { decrement, increment } from "./testReducer";
 export default function Sandbox() {
   const data = useSelector((state) => state.test.data);
   const dispatch = useDispatch();
+  const [mapInput, setMapInput] = useState({
+    center: {
+      lat: 10.99835602,
+      lng: 77.01502627,
+    },
+    zoom: 16,
+  });
 
   return (
     <>
@@ -32,8 +40,8 @@ export default function Sandbox() {
         color='teal'
       />
       <div style={{ marginTop: 15 }}>
-        <TestPlaceInput />
-        <TestMap />
+        <TestPlaceInput mapInput={mapInput} setMapInput={setMapInput} />
+        <TestMap mapInput={mapInput} />
       </div>
     </>
   );

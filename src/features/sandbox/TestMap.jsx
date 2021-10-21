@@ -3,24 +3,20 @@ import GoogleMapReact from "google-map-react";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-export default function TestMap() {
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
-    },
-    zoom: 11,
-  };
-
+export default function TestMap({ mapInput }) {
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyB2fuHlgZvnroO2VMern81krIwi2BP8R0Y" }}
-        center={defaultProps.center}
-        zoom={defaultProps.zoom}
+        center={mapInput.center}
+        zoom={mapInput.zoom}
       >
-        <AnyReactComponent lat={59.955413} lng={30.337844} text='My Marker' />
+        <AnyReactComponent
+          lat={mapInput.center.lat}
+          lng={mapInput.center.lng}
+          text='My Marker'
+        />
       </GoogleMapReact>
     </div>
   );
