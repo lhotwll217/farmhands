@@ -72,7 +72,7 @@ export default function EventForm({ match, history }) {
             <Header sub color='teal' content='Event Location Details' />
             <MyPlaceInput placeholder='City' name='city' />
 
-            <MyTextInput placeholder='Venue' name='venue' />
+            <MyPlaceInput placeholder='Venue' name='venue' />
 
             <MyDateInput
               name='date'
