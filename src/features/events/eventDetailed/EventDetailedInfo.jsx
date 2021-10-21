@@ -37,7 +37,7 @@ export default function EventDetailedInfo({ event }) {
             <Icon name='marker' size='large' color='teal' />
           </GridColumn>
           <GridColumn width={11}>
-            <span>{event.venue}</span>
+            <span>{event.venue.address}</span>
           </GridColumn>
           <GridColumn width={4}>
             <Button color='teal' size='tiny' content='Show Map' />

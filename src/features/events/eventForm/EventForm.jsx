@@ -72,7 +72,6 @@ export default function EventForm({ match, history }) {
               name='category'
               options={categoryOptions}
             />
-            {console.log(values)}
 
             <MyTextArea placeholder='Description' name='description' rows={3} />
 
@@ -92,7 +91,8 @@ export default function EventForm({ match, history }) {
 
             <MyDateInput
               name='date'
-              placeholder='Event Date'
+              isClearable={true}
+              placeholderText='Event Date'
               timeFormat='HH:mm'
               showTimeSelect
               timeCaption='time'
