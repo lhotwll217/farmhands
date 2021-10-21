@@ -31,8 +31,6 @@ export default function MyPlaceInput({ label, options, ...props }) {
     }
   }
 
-  console.log(field.value);
-
   return (
     <PlacesAutocomplete
       value={field.value["address"]}
@@ -66,7 +64,10 @@ export default function MyPlaceInput({ label, options, ...props }) {
             >
               <List selection>
                 {suggestions.map((suggestion) => (
-                  <ListItem {...getSuggestionItemProps(suggestion)}>
+                  <ListItem
+                    key={suggestion.id}
+                    {...getSuggestionItemProps(suggestion)}
+                  >
                     <ListHeader>
                       {suggestion.formattedSuggestion.mainText}
                     </ListHeader>

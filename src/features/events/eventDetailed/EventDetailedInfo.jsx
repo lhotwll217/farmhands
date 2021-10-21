@@ -7,8 +7,12 @@ import {
   GridColumn,
 } from "semantic-ui-react";
 import { format } from "date-fns";
+import EventDetailedMap from "./EventDetailedMap";
+import { useState } from "react";
 
 export default function EventDetailedInfo({ event }) {
+  const [mapOpen, toggleOpenMap] = useState(false);
+
   return (
     <SegmentGroup>
       <Segment attached='top'>
@@ -40,10 +44,16 @@ export default function EventDetailedInfo({ event }) {
             <span>{event.venue.address}</span>
           </GridColumn>
           <GridColumn width={4}>
-            <Button color='teal' size='tiny' content='Show Map' />
+            <Button
+              onClick={() => toggleOpenMap(!mapOpen)}
+              color='teal'
+              size='tiny'
+              content={mapOpen ? "Hide Map" : "Open Map"}
+            />
           </GridColumn>
         </Grid>
       </Segment>
+      {mapOpen && <EventDetailedMap latLng={event.venue.latlng} />}
     </SegmentGroup>
   );
 }
