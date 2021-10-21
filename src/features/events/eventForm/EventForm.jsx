@@ -21,9 +21,13 @@ export default function EventForm({ match, history }) {
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),
     category: Yup.string().required("You must provide a category"),
-    description: Yup.string().required("You must provide a description"),
-    city: Yup.string().required("You must provide a city"),
-    venue: Yup.string().required("You must provide a venue"),
+    description: Yup.string().required("You must provide a category"),
+    city: Yup.object().shape({
+      address: Yup.string().required("You must provide a description"),
+    }),
+    venue: Yup.object().shape({
+      address: Yup.string().required("You must provide a venue"),
+    }),
     date: Yup.string().required("You must provide a date"),
   });
 
