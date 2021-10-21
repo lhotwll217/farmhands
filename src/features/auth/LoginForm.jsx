@@ -3,8 +3,10 @@ import ModalWrapper from "../../app/common/form/modals/ModalWrapper";
 import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import { Button } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
 
 export default function LoginForm() {
+  const dispatch = useDispatch();
   return (
     <ModalWrapper size='mini' header='Sign in to Re-eents'>
       <Formik
