@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import {
   Dropdown,
   DropdownItem,
@@ -6,12 +7,16 @@ import {
   Image,
   MenuItem,
 } from "semantic-ui-react";
+import { signOutUser } from "../auth/authActions";
 
-export default function SignedInMenu({ signOut }) {
+export default function SignedInMenu() {
+  const history = useHistory();
+  const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   return (
     <MenuItem position='right'>
       <Image avatar spaced='right' src='/assets/user.png' />
-      <Dropdown pointing='top left' text='Bob'>
+      <Dropdown pointing='top left' text={currentUser.email}>
         <DropdownMenu>
           <DropdownItem
             as={Link}
@@ -20,7 +25,14 @@ export default function SignedInMenu({ signOut }) {
             icon='icon'
           />
           <DropdownItem text='My profile' icon='user' />
-          <DropdownItem onClick={signOut} text='Sign out' icon='plus' />
+          <DropdownItem
+            onClick={() => {
+              dispatch(signOutUser());
+              history.push("/");
+            }}
+            text='Sign out'
+            icon='plus'
+          />
         </DropdownMenu>
       </Dropdown>
     </MenuItem>

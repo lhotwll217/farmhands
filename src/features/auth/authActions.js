@@ -1,14 +1,14 @@
-import { SIGN_IN_USER } from "./authConstants";
+import { SIGN_IN_USER, SIGN_OUT_USER } from "./authConstants";
 
 export function signInUser(payload) {
   return {
     type: SIGN_IN_USER,
-    payload,
+    payload: payload,
   };
 }
 
 export function signOutUser() {
   return {
-    type: SIGN_IN_USER,
+    type: SIGN_OUT_USER,
   };
 }

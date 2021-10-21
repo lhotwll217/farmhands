@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { Button, MenuItem } from "semantic-ui-react";
 import { openModal } from "../../app/common/form/modals/modalReducer";
 
-export default function SignedOutMenu({ setAuthenticated }) {
+export default function SignedOutMenu() {
   const dispatch = useDispatch();
   return (
     <MenuItem position='right'>
