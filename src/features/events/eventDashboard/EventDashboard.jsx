@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Grid, GridColumn } from "semantic-ui-react";
-import LoadingComponent from "../../../app/layout/LoadingComponent";
+import EventFilters from "./EventFilters";
+
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListPlaceholder";
 
@@ -21,7 +22,7 @@ export default function EventDashboard() {
         <EventList events={events} />
       </GridColumn>
       <GridColumn width={6}>
-        <h2>EventFilters</h2>
+        <EventFilters />
       </GridColumn>
     </Grid>
   );
