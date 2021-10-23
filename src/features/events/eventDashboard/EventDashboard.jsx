@@ -4,20 +4,30 @@ import EventFilters from "./EventFilters";
 import { useEffect } from "react";
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListPlaceholder";
-import { getEventsFromFirestore } from "../../../app/firestore/firestoreService";
+import {
+  dataFromSnapshot,
+  getEventsFromFirestore,
+} from "../../../app/firestore/firestoreService";
+import { listenToEvents } from "../eventActions";
+import { useDispatch } from "react-redux";
 
 export default function EventDashboard() {
+  const dispatch = useDispatch();
   const { events } = useSelector((state) => state.event);
   const { loading } = useSelector((state) => state.async);
 
   useEffect(() => {
     const unsubscribe = getEventsFromFirestore({
       next: (snapshot) =>
-        console.log(snapshot.docs.map((docSnapshot) => docSnapshot.data())),
+        dispatch(
+          listenToEvents(
+            snapshot.docs.map((docSnapshot) => dataFromSnapshot(docSnapshot))
+          )
+        ),
       error: (error) => console.log(error),
     });
     return unsubscribe;
-  });
+  }, [dispatch]);
 
   return (
     <Grid>

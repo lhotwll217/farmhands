@@ -16,8 +16,6 @@ import { loadEvents } from "./features/events/eventActions";
 
 const store = configureStore();
 
-store.dispatch(loadEvents());
-
 const rootEl = document.getElementById("root");
 
 function render() {
