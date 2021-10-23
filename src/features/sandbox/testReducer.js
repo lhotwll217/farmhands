@@ -14,9 +14,9 @@ export function increment(amount) {
     dispatch(asyncActionStart());
     try {
       await delay(1000);
-      throw "oops";
-      dispatch({ type: INCREMENT_COUNTER, payload: amount });
-      dispatch(asyncActionFinish());
+      // throw "oops";
+      // dispatch({ type: INCREMENT_COUNTER, payload: amount });
+      // dispatch(asyncActionFinish());
     } catch (error) {
       dispatch(asyncActionError(error));
       toast.error(error);
