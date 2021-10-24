@@ -17,10 +17,14 @@ export default function LoginForm() {
           email: Yup.string().required().email(),
           password: Yup.string().required(),
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          dispatch(signInUser(values));
-          setSubmitting(false);
-          dispatch(closeModal());
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            await dispatch(signInUser(values));
+            setSubmitting(false);
+            dispatch(closeModal());
+          } catch (error) {
+            console.log(error);
+          }
         }}
       >
         {({ isSubmitting, isValid, dirty }) => (

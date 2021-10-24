@@ -19,3 +19,15 @@ export function signOutUser() {
     type: SIGN_OUT_USER,
   };
 }
+
+export function verifyAuth() {
+  return function (dispatch) {
+    return firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        dispatch({ type: SIGN_IN_USER, payload: user });
+      } else {
+        dispatch(signOutUser());
+      }
+    });
+  };
+}
