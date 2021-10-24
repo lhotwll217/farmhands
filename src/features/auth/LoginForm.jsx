@@ -6,6 +6,7 @@ import { Button } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../app/common/form/modals/modalReducer";
 import { signInUser } from "./authActions";
+import { signInWithEmail } from "../../app/firestore/firebaseService";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function LoginForm() {
         })}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            await dispatch(signInUser(values));
+            await signInWithEmail(values);
             setSubmitting(false);
             dispatch(closeModal());
           } catch (error) {
