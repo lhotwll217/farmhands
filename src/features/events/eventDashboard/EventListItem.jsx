@@ -10,6 +10,7 @@ import {
   SegmentGroup,
   List,
   Button,
+  Label,
 } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 import { Link } from "react-router-dom";
@@ -26,6 +27,14 @@ export default function EventListItem({ event }) {
             <ItemContent>
               <ItemHeader content={event.title} />
               <ItemDescription>Hosted By {event.hostedBy}</ItemDescription>
+              {event.isCancelled && (
+                <Label
+                  style={{ top: "-40px" }}
+                  ribbon='right'
+                  color='red'
+                  content='This event has been cancelled'
+                />
+              )}
             </ItemContent>
           </Item>
         </ItemGroup>
