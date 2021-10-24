@@ -8,13 +8,14 @@ import useFirestoreDoc from "../../../app/hooks/useFirstoreDoc";
 import { listenToEventFromFirestore } from "../../../app/firestore/firestoreService";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { listenToEvents } from "../eventActions";
+import { Redirect } from "react-router";
 
 export default function EventDetailedPage({ match }) {
   const dispatch = useDispatch();
   const event = useSelector((state) =>
     state.event.events.find((e) => e.id === match.params.id)
   );
-  const { loading } = useSelector((state) => state.async);
+  const { loading, error } = useSelector((state) => state.async);
 
   useFirestoreDoc({
     query: () => listenToEventFromFirestore(match.params.id),
@@ -22,8 +23,10 @@ export default function EventDetailedPage({ match }) {
     deps: [match.params.id],
   });
 
-  if (loading || !event)
+  if (loading || (!event && !error))
     return <LoadingComponent content='Loading event ...' />;
+
+  if (error) return <Redirect to='/error' />;
 
   return (
     <Grid>

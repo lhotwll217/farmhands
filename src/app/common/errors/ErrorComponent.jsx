@@ -6,7 +6,7 @@ export default function ErrorComponent() {
   const { error } = useSelector((state) => state.async);
 
   return (
-    <Segment>
+    <Segment placeholder>
       <Header
         textAlign='center'
         content={error?.message || "Oops, there is a problem..."}
