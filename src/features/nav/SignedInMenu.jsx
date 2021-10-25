@@ -35,6 +35,12 @@ export default function SignedInMenu() {
             icon='plus'
           />
           <DropdownItem text='My profile' icon='user' />
+          <DropdownItem
+            text='My Account'
+            icon='settings'
+            as={Link}
+            to='/account'
+          />
           <DropdownItem onClick={handleSignOut} text='Sign out' icon='plus' />
         </DropdownMenu>
       </Dropdown>
