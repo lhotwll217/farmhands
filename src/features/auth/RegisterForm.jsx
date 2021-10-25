@@ -2,10 +2,9 @@ import { Formik, Form } from "formik";
 import ModalWrapper from "../../app/common/form/modals/ModalWrapper";
 import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
-import { Button } from "semantic-ui-react";
+import { Button, Label } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../app/common/form/modals/modalReducer";
-
 import { registerInFirebase } from "../../app/firestore/firebaseService";
 
 export default function RegisterForm() {
@@ -19,17 +18,17 @@ export default function RegisterForm() {
           email: Yup.string().required().email(),
           password: Yup.string().required(),
         })}
-        onSubmit={async (values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting, setErrors }) => {
           try {
             await registerInFirebase(values);
             setSubmitting(false);
             dispatch(closeModal());
           } catch (error) {
-            console.log(error);
+            setErrors({ auth: error.message });
           }
         }}
       >
-        {({ isSubmitting, isValid, dirty }) => (
+        {({ isSubmitting, isValid, dirty, errors }) => (
           <Form className='ui form'>
             <MyTextInput name='displayName' placeholder='Display Name' />
             <MyTextInput name='email' placeholder='Email Address' />
@@ -38,6 +37,14 @@ export default function RegisterForm() {
               placeholder='Placeholder'
               type='password'
             />
+            {errors.auth && (
+              <Label
+                basic
+                color='red'
+                style={{ marginBottom: 10 }}
+                content={errors.auth}
+              />
+            )}
             <Button
               loading={isSubmitting}
               disabled={!isValid || !dirty || isSubmitting}

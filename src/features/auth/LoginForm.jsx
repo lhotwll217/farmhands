@@ -24,7 +24,7 @@ export default function LoginForm() {
             setSubmitting(false);
             dispatch(closeModal());
           } catch (error) {
-            setErrors({ auth: error.message });
+            setErrors({ auth: "Invalid Username or Password" });
             console.log(error);
           }
         }}
