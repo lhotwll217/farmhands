@@ -35,7 +35,7 @@ export default function LoginForm() {
             <MyTextInput name='email' placeholder='Email Address' />
             <MyTextInput
               name='password'
-              placeholder='Placeholder'
+              placeholder='password'
               type='password'
             />
             {errors.auth && (

@@ -26,7 +26,7 @@ export default function SignedInMenu() {
   return (
     <MenuItem position='right'>
       <Image avatar spaced='right' src='/assets/user.png' />
-      <Dropdown pointing='top left' text={currentUser.email}>
+      <Dropdown pointing='top left' text={currentUser.displayName}>
         <DropdownMenu>
           <DropdownItem
             as={Link}
