@@ -15,7 +15,7 @@ export default function RegisterForm() {
       <Formik
         initialValues={{ displayName: "", email: "", password: "" }}
         validationSchema={Yup.object({
-          displayName: Yup.string().required(),
+          displayName: Yup.string().required("display name is required"),
           email: Yup.string().required().email(),
           password: Yup.string().required(),
         })}
@@ -35,11 +35,12 @@ export default function RegisterForm() {
             <MyTextInput name='email' placeholder='Email Address' />
             <MyTextInput
               name='password'
-              placeholder='Placeholder'
+              placeholder='Password'
               type='password'
             />
             {errors.auth && (
               <Label
+                plac
                 basic
                 color='red'
                 style={{ marginBottom: 10 }}
