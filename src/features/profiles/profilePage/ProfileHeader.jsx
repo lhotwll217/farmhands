@@ -15,7 +15,7 @@ import {
   Button,
 } from "semantic-ui-react";
 
-export default function ProfileHeader({ profile }) {
+export default function ProfileHeader({ profile, isCurrentUser }) {
   return (
     <Segment>
       <Grid>
@@ -42,15 +42,19 @@ export default function ProfileHeader({ profile }) {
             <Statistic label='followers' value={10} />
             <Statistic label='following' value={5} />
           </StatisticGroup>
-          <Divider />
-          <Reveal animated='move'>
-            <RevealContent visible style={{ width: "100%" }}>
-              <Button fluid color='teal' content='Following' />
-            </RevealContent>
-            <RevealContent hidden style={{ width: "100%" }}>
-              <Button basic fluid color='red' content='Unfollow' />
-            </RevealContent>
-          </Reveal>
+          {isCurrentUser && (
+            <>
+              <Divider />
+              <Reveal animated='move'>
+                <RevealContent visible style={{ width: "100%" }}>
+                  <Button fluid color='teal' content='Following' />
+                </RevealContent>
+                <RevealContent hidden style={{ width: "100%" }}>
+                  <Button basic fluid color='red' content='Unfollow' />
+                </RevealContent>
+              </Reveal>
+            </>
+          )}
         </GridColumn>
       </Grid>
     </Segment>
