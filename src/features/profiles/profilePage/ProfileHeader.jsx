@@ -15,19 +15,23 @@ import {
   Button,
 } from "semantic-ui-react";
 
-export default function ProfileHeader() {
+export default function ProfileHeader({ profile }) {
   return (
     <Segment>
       <Grid>
         <GridColumn width={12}>
           <ItemGroup>
             <Item>
-              <ItemImage avater size='small' src='/assets/user.png' />
+              <ItemImage
+                avater
+                size='small'
+                src={profile.photoURL || "/assets/user.png"}
+              />
               <ItemContent verticalAlign='middle'>
                 <Header
                   as='h1'
                   style={{ display: "block", marginBottom: 10 }}
-                  content='Display Name'
+                  content={profile.displayName}
                 />
               </ItemContent>
             </Item>

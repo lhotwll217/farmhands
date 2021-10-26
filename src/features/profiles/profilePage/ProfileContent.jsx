@@ -1,8 +1,9 @@
 import { Tab, TabPane } from "semantic-ui-react";
+import AboutTab from "./AboutTab";
 
-export default function ProfileContent() {
+export default function ProfileContent({ profile }) {
   const panes = [
-    { menuItem: "About", render: () => <TabPane>About User</TabPane> },
+    { menuItem: "About", render: () => <AboutTab profile={profile} /> },
     { menuItem: "Photos", render: () => <TabPane>Photos</TabPane> },
     { menuItem: "Events", render: () => <TabPane>Events User</TabPane> },
     { menuItem: "Followers", render: () => <TabPane>Followers User</TabPane> },
