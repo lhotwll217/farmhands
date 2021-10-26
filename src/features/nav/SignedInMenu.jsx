@@ -12,7 +12,7 @@ import { signOutFirebase } from "../../app/firestore/firebaseService";
 
 export default function SignedInMenu() {
   const history = useHistory();
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUserProfile } = useSelector((state) => state.profile);
 
   async function handleSignOut() {
     try {
@@ -25,8 +25,12 @@ export default function SignedInMenu() {
 
   return (
     <MenuItem position='right'>
-      <Image avatar spaced='right' src='/assets/user.png' />
-      <Dropdown pointing='top left' text={currentUser.displayName}>
+      <Image
+        avatar
+        spaced='right'
+        src={currentUserProfile.photoURL || "/assets/user.png"}
+      />
+      <Dropdown pointing='top left' text={currentUserProfile.displayName}>
         <DropdownMenu>
           <DropdownItem
             as={Link}
@@ -44,7 +48,7 @@ export default function SignedInMenu() {
             text='My Profile'
             icon='user'
             as={Link}
-            to={`/profile/${currentUser.uid}`}
+            to={`/profile/${currentUserProfile.id}`}
           />
           <DropdownItem onClick={handleSignOut} text='Sign out' icon='plus' />
         </DropdownMenu>
