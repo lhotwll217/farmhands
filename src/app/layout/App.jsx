@@ -12,7 +12,7 @@ import ErrorComponent from "../common/errors/ErrorComponent";
 import AccountPage from "../../features/auth/AccountPage";
 import { useSelector } from "react-redux";
 import LoadingComponent from "./LoadingComponent";
-import ProfilePage from "../../features/profiles/Profilpage";
+import ProfilePage from "../../features/profiles/ProfilePage";
 
 function App() {
   const { key } = useLocation();

@@ -1,4 +1,5 @@
 import { Grid, GridColumn } from "semantic-ui-react";
+import ProfileContent from "./ProfilContent";
 import ProfileHeader from "./ProfileHeader";
 
 export default function ProfilePage() {
@@ -6,7 +7,7 @@ export default function ProfilePage() {
     <Grid>
       <GridColumn width={16}>
         <ProfileHeader />
-        <h2>Profile Content</h2>
+        <ProfileContent />
       </GridColumn>
     </Grid>
   );
