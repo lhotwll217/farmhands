@@ -10,6 +10,7 @@ import {
   TabPane,
   ButtonGroup,
 } from "semantic-ui-react";
+import PhotoUploadWidget from "../../../app/common/photos/PhotoUploadWidget";
 
 export default function PhotosTab({ profile, isCurrentUser }) {
   const [editMode, setEditMode] = useState(false);
@@ -34,7 +35,7 @@ export default function PhotosTab({ profile, isCurrentUser }) {
         </GridColumn>
         <GridColumn width={16}>
           {editMode ? (
-            <p> Photo Widget Will Go Here</p>
+            <PhotoUploadWidget />
           ) : (
             <CardGroup itemsPerRow={5}>
               <Card>
