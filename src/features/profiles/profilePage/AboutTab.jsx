@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Grid, GridColumn, Header, TabPane } from "semantic-ui-react";
 import { format } from "date-fns";
+import ProfileForm from "./ProfileForm";
 
 export default function AboutTab({ profile }) {
   const [editMode, setEditMode] = useState(false);
@@ -23,7 +24,7 @@ export default function AboutTab({ profile }) {
         </GridColumn>
         <GridColumn width={16}>
           {editMode ? (
-            <p> Profile Form</p>
+            <ProfileForm profile={profile} />
           ) : (
             <>
               <div style={{ marginBottom: 10 }}>
