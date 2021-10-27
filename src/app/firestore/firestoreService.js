@@ -1,4 +1,3 @@
-import cuid from "cuid";
 import firebase from "../config/firebase";
 
 const db = firebase.firestore();
@@ -21,8 +20,27 @@ export function dataFromSnapshot(snapshot) {
   };
 }
 
-export function listenToEventsFromFirestore() {
-  return db.collection("events").orderBy("date");
+export function listenToEventsFromFirestore(predicate) {
+  const user = firebase.auth().currentUser;
+  console.log(user.uid);
+  console.log(predicate.get("startDate"));
+  let eventsRef = db.collection("events").orderBy("date");
+  switch (predicate.get("filter")) {
+    case "isGoing":
+      console.log("is going");
+      return eventsRef
+        .where("attendeeIds", "array-contains", user.uid)
+        .where("date", ">=", predicate.get("startDate"));
+
+    case "isHost":
+      console.log("is hosting");
+      return eventsRef
+        .where("hostUid", "==", user.uid)
+        .where("date", ">=", predicate.get("startDate"));
+    default:
+      console.log("default");
+      return eventsRef.where("date", ">=", predicate.get("startDate"));
+  }
 }
 
 export function listenToEventFromFirestore(eventId) {

@@ -23,7 +23,7 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
           <ItemGroup>
             <Item>
               <ItemImage
-                avater
+                avatar
                 size='small'
                 src={profile.photoURL || "/assets/user.png"}
               />

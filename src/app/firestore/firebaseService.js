@@ -9,6 +9,7 @@ export function signInWithEmail(creds) {
 }
 
 export function signOutFirebase() {
+  console.log("signout");
   return firebase.auth().signOut();
 }
 
