@@ -35,7 +35,7 @@ export default function PhotosTab({ profile, isCurrentUser }) {
         </GridColumn>
         <GridColumn width={16}>
           {editMode ? (
-            <PhotoUploadWidget />
+            <PhotoUploadWidget setEditMode={setEditMode} />
           ) : (
             <CardGroup itemsPerRow={5}>
               <Card>
