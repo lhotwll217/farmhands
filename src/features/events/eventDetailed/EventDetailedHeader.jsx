@@ -10,6 +10,9 @@ import {
   Image,
 } from "semantic-ui-react";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import { addUserAttendance } from "../../../app/firestore/firestoreService";
+import { useState } from "react";
 
 // const eventImageStyle = {
 //   filter: "brightness(30%)",
@@ -25,6 +28,19 @@ import { format } from "date-fns";
 // };
 
 export default function EventDetailedHeader({ event, isHost, isGoing }) {
+  const [loading, setLoading] = useState(false);
+
+  async function handleUserJoinEvent() {
+    setLoading(true);
+    try {
+      await addUserAttendance(event);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <SegmentGroup>
       <Segment basic attached='top' style={{ padding: "0" }}>
@@ -69,7 +85,9 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
             {isGoing ? (
               <Button>Cancel My Place</Button>
             ) : (
-              <Button>Join Event</Button>
+              <Button onClick={handleUserJoinEvent} loading={loading}>
+                Join Event
+              </Button>
             )}
           </>
         )}
