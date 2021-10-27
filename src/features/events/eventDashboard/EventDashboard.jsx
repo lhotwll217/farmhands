@@ -7,11 +7,22 @@ import { listenToEventsFromFirestore } from "../../../app/firestore/firestoreSer
 import { listenToEvents } from "../eventActions";
 import { useDispatch } from "react-redux";
 import useFirestoreCollection from "../../../app/hooks/useFirestoreCollection";
+import { useState } from "react";
 
 export default function EventDashboard() {
   const dispatch = useDispatch();
   const { events } = useSelector((state) => state.event);
   const { loading } = useSelector((state) => state.async);
+  const [predicate, setPredicate] = useState(
+    new Map([
+      ["startDate", new Date()],
+      ["filter", "all"],
+    ])
+  );
+
+  function handleSetPredicate(key, value) {
+    setPredicate(new Map(predicate.set(key, value)));
+  }
 
   useFirestoreCollection({
     query: () => listenToEventsFromFirestore(),
@@ -32,7 +43,11 @@ export default function EventDashboard() {
         <EventList events={events} />
       </GridColumn>
       <GridColumn width={6}>
-        <EventFilters />
+        <EventFilters
+          predicate={predicate}
+          setPredicate={handleSetPredicate}
+          lodaing={loading}
+        />
       </GridColumn>
     </Grid>
   );
