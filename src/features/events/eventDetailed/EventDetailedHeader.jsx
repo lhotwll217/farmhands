@@ -84,7 +84,11 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
                 />
                 <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
                 <p>
-                  Hosted by <strong>{event.hostedBy}</strong>
+                  Hosted by{" "}
+                  <strong>
+                    <Link to={`/profile/${event.hostUid}`}></Link>
+                    {event.hostedBy}
+                  </strong>
                 </p>
               </ItemContent>
             </Item>

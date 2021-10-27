@@ -39,7 +39,10 @@ export default function EventDetailedPage({ match }) {
         <EventDetailedChat />
       </GridColumn>
       <GridColumn width={6}>
-        <EventDetailedSidebar attendees={event?.attendees} />
+        <EventDetailedSidebar
+          attendees={event?.attendees}
+          hostUid={event.hostUid}
+        />
       </GridColumn>
     </Grid>
   );
