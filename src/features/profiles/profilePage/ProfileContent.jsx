@@ -17,7 +17,7 @@ export default function ProfileContent({ profile, isCurrentUser }) {
         <PhotosTab profile={profile} isCurrentUser={isCurrentUser} />
       ),
     },
-    { menuItem: "Events", render: () => <EventsTab /> },
+    { menuItem: "Events", render: () => <EventsTab profile={profile} /> },
     { menuItem: "Followers", render: () => <TabPane>Followers User</TabPane> },
     { menuItem: "Following", render: () => <TabPane>Following User</TabPane> },
   ];

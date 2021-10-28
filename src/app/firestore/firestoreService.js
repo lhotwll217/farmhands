@@ -22,23 +22,18 @@ export function dataFromSnapshot(snapshot) {
 
 export function listenToEventsFromFirestore(predicate) {
   const user = firebase.auth().currentUser;
-  console.log(user.uid);
-  console.log(predicate.get("startDate"));
   let eventsRef = db.collection("events").orderBy("date");
   switch (predicate.get("filter")) {
     case "isGoing":
-      console.log("is going");
       return eventsRef
         .where("attendeeIds", "array-contains", user.uid)
         .where("date", ">=", predicate.get("startDate"));
 
     case "isHost":
-      console.log("is hosting");
       return eventsRef
         .where("hostUid", "==", user.uid)
         .where("date", ">=", predicate.get("startDate"));
     default:
-      console.log("default");
       return eventsRef.where("date", ">=", predicate.get("startDate"));
   }
 }
@@ -191,22 +186,20 @@ export async function cancelUserAttendance(event) {
 }
 
 export function getUserEventsQuery(activeTab, userUid) {
-
-  let eventsRef = db.collection('events');
+  let eventsRef = db.collection("events");
   const today = new Date();
   switch (activeTab) {
     case 1: // past events
-    return eventsRef.where('attendeeIds, '"array-contains", userUid)
-    .where('date', '<=', today)
-    .orderBy('date', 'desc')
+      return eventsRef
+        .where("attendeeIds", "array-contains", userUid)
+        .where("date", "<=", today)
+        .orderBy("date", "desc");
     case 2: // hosting
-    return eventsRef
-    .where('hostUid', '==', userUid)
-    .orderBy('date')
-    default: 
-    return eventsRef
-    .where('attendeeIds', 'array-contains', userUid)
-    .orderBy('date')
-
+      return eventsRef.where("hostUid", "==", userUid).orderBy("date");
+    default:
+      return eventsRef
+        .where("attendeeIds", "array-contains", userUid)
+        .where("date", ">=", today)
+        .orderBy("date");
   }
 }

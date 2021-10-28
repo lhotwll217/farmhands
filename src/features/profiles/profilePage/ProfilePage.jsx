@@ -4,10 +4,7 @@ import { Grid, GridColumn } from "semantic-ui-react";
 import { getUserProfile } from "../../../app/firestore/firestoreService";
 import useFirestoreDoc from "../../../app/hooks/useFirstoreDoc";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import {
-  listenToCurrentUserProfile,
-  listenToSelectedUserProfile,
-} from "../profileActions";
+import { listenToSelectedUserProfile } from "../profileActions";
 import ProfileContent from "./ProfileContent";
 import ProfileHeader from "./ProfileHeader";
 
