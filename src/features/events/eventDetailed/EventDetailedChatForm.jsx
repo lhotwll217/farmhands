@@ -1,7 +1,6 @@
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { toast } from "react-toastify";
-import { Button } from "semantic-ui-react";
-import MyTextArea from "../../../app/common/form/MyTextArea";
+import { Loader } from "semantic-ui-react";
 import { addEventChatComment } from "../../../app/firestore/firebaseService";
 
 export default function EventDetailedChatForm({ eventId }) {
@@ -9,6 +8,7 @@ export default function EventDetailedChatForm({ eventId }) {
     <Formik
       initialValues={{ comment: "" }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
+        setSubmitting(true);
         try {
           await addEventChatComment(eventId, values.comment);
           resetForm();
@@ -19,20 +19,28 @@ export default function EventDetailedChatForm({ eventId }) {
         }
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, handleSubmit }) => (
         <Form className='ui form'>
-          <MyTextArea
-            name='comment'
-            placeholder='Enter Comment Here'
-            rows={2}
-          />
-          <Button
-            loading={isSubmitting}
-            content='Add Reply '
-            icon='edit '
-            primary
-            type='submit'
-          />
+          <Field name='comment'>
+            {({ field }) => (
+              <div style={{ position: "relative" }}>
+                <Loader active={isSubmitting} />
+                <textarea
+                  rows='2'
+                  {...field}
+                  placeholder='Enter Comment (Enter T0 Submit)'
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter" && e.shiftKey) {
+                      return;
+                    }
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      handleSubmit();
+                    }
+                  }}
+                ></textarea>
+              </div>
+            )}
+          </Field>
         </Form>
       )}
     </Formik>

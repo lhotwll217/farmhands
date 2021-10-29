@@ -29,7 +29,9 @@ export default function EventDetailedChat({ eventId }) {
   useEffect(() => {
     getEventChatRef(eventId).on("value", (snapshot) => {
       if (!snapshot.exists) return;
-      dispatch(listenToEventChat(firebaseObjectToArray(snapshot.val())));
+      dispatch(
+        listenToEventChat(firebaseObjectToArray(snapshot.val()).reverse())
+      );
     });
   });
   return (
@@ -45,8 +47,9 @@ export default function EventDetailedChat({ eventId }) {
       </Segment>
 
       <Segment attached>
+        <EventDetailedChatForm eventId={eventId} />
         <CommentGroup>
-          {comments.map((comment) => (
+          {comments?.map((comment) => (
             <Comment key={comment.id}>
               <CommentAvatar src={comment.photoURL || "/assets/user.png"} />
               <CommentContent>
@@ -64,8 +67,6 @@ export default function EventDetailedChat({ eventId }) {
             </Comment>
           ))}
         </CommentGroup>
-
-        <EventDetailedChatForm eventId={eventId} />
       </Segment>
     </>
   );
