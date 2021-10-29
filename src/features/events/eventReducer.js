@@ -2,6 +2,7 @@ import {
   CREATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
+  LISTEN_TO_EVENTS_CHAT,
   UPDATE_EVENT,
 } from "./eventConstants";
 
@@ -33,6 +34,11 @@ export default function eventReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         events: payload,
+      };
+    case LISTEN_TO_EVENTS_CHAT:
+      return {
+        ...state,
+        comments: payload,
       };
 
     default:
