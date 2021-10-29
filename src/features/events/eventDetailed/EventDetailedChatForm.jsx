@@ -11,6 +11,7 @@ export default function EventDetailedChatForm({ eventId }) {
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
           await addEventChatComment(eventId, values.comment);
+          resetForm();
         } catch (error) {
           toast.error(error.message);
         } finally {
@@ -21,7 +22,7 @@ export default function EventDetailedChatForm({ eventId }) {
       {({ isSubmitting }) => (
         <Form className='ui form'>
           <MyTextArea
-            name='comments'
+            name='comment'
             placeholder='Enter Comment Here'
             rows={2}
           />
