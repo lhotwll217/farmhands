@@ -36,7 +36,7 @@ export default function EventDetailedPage({ match }) {
       <GridColumn width={10}>
         <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} />
         <EventDetailedInfo event={event} />
-        <EventDetailedChat />
+        <EventDetailedChat eventId={event.id} />
       </GridColumn>
       <GridColumn width={6}>
         <EventDetailedSidebar

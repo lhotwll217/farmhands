@@ -14,7 +14,8 @@ import {
   Button,
   Header,
 } from "semantic-ui-react";
-export default function EventDetailedChat() {
+import EventDetailedChatForm from "./EventDetailedChatForm";
+export default function EventDetailedChat({ eventId }) {
   return (
     <>
       <Segment
@@ -89,16 +90,7 @@ export default function EventDetailedChat() {
               </CommentActions>
             </CommentContent>
           </Comment>
-
-          <Form reply>
-            <FormTextArea />
-            <Button
-              content='Add Reply'
-              labelPosition='left'
-              icon='edit'
-              primary
-            />
-          </Form>
+          <EventDetailedChatForm eventId={eventId} />
         </CommentGroup>
       </Segment>
     </>
