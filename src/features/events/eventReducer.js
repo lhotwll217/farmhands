@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   events: [],
+  comments: [],
 };
 
 export default function eventReducer(state = initialState, { type, payload }) {

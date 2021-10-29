@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { formatDistance } from "date-fns";
 import {
   Comment,
   CommentAction,
@@ -44,68 +46,26 @@ export default function EventDetailedChat({ eventId }) {
 
       <Segment attached>
         <CommentGroup>
-          <Comment>
-            <CommentAvatar src='/assets/user.png' />
-            <CommentContent>
-              <CommentAuthor as='a'>Matt</CommentAuthor>
-              <CommentMetadata>
-                <div>Today at 5:42PM</div>
-              </CommentMetadata>
-              <CommentText>How artistic!</CommentText>
-              <CommentActions>
-                <CommentAction>Reply</CommentAction>
-              </CommentActions>
-            </CommentContent>
-          </Comment>
-
-          <Comment>
-            <CommentAvatar src='/assets/user.png' />
-            <CommentContent>
-              <CommentAuthor as='a'>Elliot Fu</CommentAuthor>
-              <CommentMetadata>
-                <div>Yesterday at 12:30AM</div>
-              </CommentMetadata>
-              <CommentText>
-                <p>
-                  This has been very useful for my research. Thanks as well!
-                </p>
-              </CommentText>
-              <CommentActions>
-                <CommentAction>Reply</CommentAction>
-              </CommentActions>
-            </CommentContent>
-            <CommentGroup>
-              <Comment>
-                <CommentAvatar src='/assets/user.png' />
-                <CommentContent>
-                  <CommentAuthor as='a'>Jenny Hess</CommentAuthor>
-                  <CommentMetadata>
-                    <div>Just now</div>
-                  </CommentMetadata>
-                  <CommentText>Elliot you are always so right :)</CommentText>
-                  <CommentActions>
-                    <CommentAction>Reply</CommentAction>
-                  </CommentActions>
-                </CommentContent>
-              </Comment>
-            </CommentGroup>
-          </Comment>
-
-          <Comment>
-            <CommentAvatar src='/assets/user.png' />
-            <CommentContent>
-              <CommentAuthor as='a'>Joe Henderson</CommentAuthor>
-              <CommentMetadata>
-                <div>5 days ago</div>
-              </CommentMetadata>
-              <CommentText>Dude, this is awesome. Thanks so much</CommentText>
-              <CommentActions>
-                <CommentAction>Reply</CommentAction>
-              </CommentActions>
-            </CommentContent>
-          </Comment>
-          <EventDetailedChatForm eventId={eventId} />
+          {comments.map((comment) => (
+            <Comment key={comment.id}>
+              <CommentAvatar src={comment.photoURL || "/assets/user.png"} />
+              <CommentContent>
+                <CommentAuthor as={Link} to={`/profile/${comment.uid}`}>
+                  {comment.displayName}
+                </CommentAuthor>
+                <CommentMetadata>
+                  <div>{formatDistance(comment.date, new Date())}</div>
+                </CommentMetadata>
+                <CommentText>{comment.text}</CommentText>
+                <CommentActions>
+                  <CommentAction>Reply</CommentAction>
+                </CommentActions>
+              </CommentContent>
+            </Comment>
+          ))}
         </CommentGroup>
+
+        <EventDetailedChatForm eventId={eventId} />
       </Segment>
     </>
   );
