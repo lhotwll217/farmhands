@@ -32,7 +32,7 @@ export default function EventDetailedChatForm({ eventId }) {
                 <textarea
                   rows='2'
                   {...field}
-                  placeholder='Enter Comment (Enter T0 Submit)'
+                  placeholder='Enter Comment (Enter To Submit)'
                   onKeyPress={(e) => {
                     if (e.key === "Enter" && e.shiftKey) {
                       return;
