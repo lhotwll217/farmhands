@@ -22,6 +22,7 @@ import {
 } from "../../../app/firestore/firebaseService";
 import { listenToEventChat } from "../eventActions";
 import EventDetailedChatForm from "./EventDetailedChatForm";
+import { CLEAR_COMMENTS } from "../eventConstants";
 export default function EventDetailedChat({ eventId }) {
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.event);
@@ -32,8 +33,12 @@ export default function EventDetailedChat({ eventId }) {
       dispatch(
         listenToEventChat(firebaseObjectToArray(snapshot.val()).reverse())
       );
+      return () => {
+        dispatch({ type: CLEAR_COMMENTS });
+        getEventChatRef().off();
+      };
     });
-  });
+  }, [eventId, dispatch]);
   return (
     <>
       <Segment
