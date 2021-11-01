@@ -23,15 +23,23 @@ import {
 import { listenToEventChat } from "../eventActions";
 import EventDetailedChatForm from "./EventDetailedChatForm";
 import { CLEAR_COMMENTS } from "../eventConstants";
+import { useState } from "react";
 export default function EventDetailedChat({ eventId }) {
   const dispatch = useDispatch();
   const { comments } = useSelector((state) => state.event);
+  const [showReplyForm, setShowReplyForm] = useState({
+    open: false,
+    commentId: null,
+  });
 
+  function handleCloseReplyForm() {
+    setShowReplyForm({ open: false, commentId: null });
+  }
   useEffect(() => {
     getEventChatRef(eventId).on("value", (snapshot) => {
       if (!snapshot.exists) return;
       dispatch(
-        listenToEventChat(firebaseObjectToArray(snapshot.val()).reverse())
+        listenToEventChat(firebaseObjectToArray(snapshot.val())?.reverse())
       );
       return () => {
         dispatch({ type: CLEAR_COMMENTS });
@@ -52,7 +60,7 @@ export default function EventDetailedChat({ eventId }) {
       </Segment>
 
       <Segment attached>
-        <EventDetailedChatForm eventId={eventId} />
+        <EventDetailedChatForm parentId={0} eventId={eventId} />
         <CommentGroup>
           {comments?.map((comment) => (
             <Comment key={comment.id}>
@@ -66,7 +74,21 @@ export default function EventDetailedChat({ eventId }) {
                 </CommentMetadata>
                 <CommentText>{comment.text}</CommentText>
                 <CommentActions>
-                  <CommentAction>Reply</CommentAction>
+                  <CommentAction
+                    onClick={() =>
+                      setShowReplyForm({ open: true, commentId: comment.id })
+                    }
+                  >
+                    Reply
+                  </CommentAction>
+                  {showReplyForm.open &&
+                    showReplyForm.commentId === comment.id && (
+                      <EventDetailedChatForm
+                        eventId={eventId}
+                        parentId={comment.id}
+                        closeForm={handleCloseReplyForm}
+                      />
+                    )}
                 </CommentActions>
               </CommentContent>
             </Comment>
