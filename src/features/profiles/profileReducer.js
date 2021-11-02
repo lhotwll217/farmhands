@@ -10,6 +10,7 @@ const initialState = {
   selectedUserProfile: null,
   photos: [],
   profileEvents: [],
+  followers: [],
 };
 
 export default function profileReducer(
