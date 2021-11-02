@@ -20,7 +20,7 @@ export default function ProfileContent({ profile, isCurrentUser }) {
     },
     { menuItem: "Events", render: () => <EventsTab profile={profile} /> },
     { menuItem: "Followers", render: () => <FollowingTab profile={profile} /> },
-    { menuItem: "Following", render: () => <TabPane>Following User</TabPane> },
+    { menuItem: "Following", render: () => <FollowingTab profile={profile} /> },
   ];
   return (
     <Tab
