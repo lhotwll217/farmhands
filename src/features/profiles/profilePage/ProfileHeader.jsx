@@ -68,8 +68,8 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
         </GridColumn>
         <GridColumn width={4}>
           <StatisticGroup>
-            <Statistic label='followers' value={10} />
-            <Statistic label='following' value={5} />
+            <Statistic label='followers' value={profile.followerCount || 0} />
+            <Statistic label='following' value={profile.followingCount || 0} />
           </StatisticGroup>
           {!isCurrentUser && (
             <>

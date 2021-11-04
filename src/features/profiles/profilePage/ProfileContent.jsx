@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tab, TabPane } from "semantic-ui-react";
+import { Tab } from "semantic-ui-react";
 import AboutTab from "./AboutTab";
 import EventsTab from "./EventsTab";
 import FollowingTab from "./FollowingTab";
