@@ -25,6 +25,7 @@ import {
   unfollowUser,
 } from "../../../app/firestore/firestoreService";
 import { setFollowUser, setUnfollowUser } from "../profileActions";
+import { CLEAR_FOLLOWINGS } from "../profileConstants";
 
 export default function ProfileHeader({ profile, isCurrentUser }) {
   const dispatch = useDispatch();
@@ -45,6 +46,9 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
       }
     }
     fetchFollowingDoc().then(() => setLoading(false));
+    return () => {
+      dispatch({ type: CLEAR_FOLLOWINGS });
+    };
   }, [isCurrentUser, dispatch, profile.id]);
 
   async function handleFollowUser() {
