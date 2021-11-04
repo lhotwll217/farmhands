@@ -112,7 +112,7 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
                     onClick={
                       followingUser
                         ? () => handleUnfollowUser()
-                        : () => handleFollowUser
+                        : () => handleFollowUser()
                     }
                     loading={loading}
                     basic

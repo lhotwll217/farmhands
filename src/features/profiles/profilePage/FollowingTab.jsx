@@ -43,11 +43,11 @@ export default function FollowingTab({ profile, activeTab }) {
         <GridColumn width={16}>
           <CardGroup itemsPerRow={5}>
             {activeTab === 3 &&
-              followers.map((profile) => (
+              followers?.map((profile) => (
                 <ProfileCard profile={profile} key={profile.id} />
               ))}
             {activeTab === 4 &&
-              followings.map((profile) => (
+              followings?.map((profile) => (
                 <ProfileCard profile={profile} key={profile.id} />
               ))}
           </CardGroup>
