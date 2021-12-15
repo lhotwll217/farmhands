@@ -221,23 +221,8 @@ export async function followUser(profile) {
         uid: profile.id,
       }
     );
-    batch.set(
-      db
-        .collection("following")
-        .doc(profile.id)
-        .collection("userFollowers")
-        .doc(user.uid),
-      {
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        uid: user.uid,
-      }
-    );
     batch.update(db.collection("users").doc(user.uid), {
       followingCount: firebase.firestore.FieldValue.increment(1),
-    });
-    batch.update(db.collection("users").doc(profile.id), {
-      followerCount: firebase.firestore.FieldValue.increment(1),
     });
     return await batch.commit();
   } catch (error) {
@@ -256,18 +241,8 @@ export async function unfollowUser(profile) {
         .collection("userFollowing")
         .doc(profile.id)
     );
-    batch.delete(
-      db
-        .collection("following")
-        .doc(profile.id)
-        .collection("userFollowers")
-        .doc(user.uid)
-    );
     batch.update(db.collection("users").doc(user.uid), {
       followingCount: firebase.firestore.FieldValue.increment(-1),
-    });
-    batch.update(db.collection("users").doc(profile.id), {
-      followerCount: firebase.firestore.FieldValue.increment(-1),
     });
     return await batch.commit();
   } catch (error) {
