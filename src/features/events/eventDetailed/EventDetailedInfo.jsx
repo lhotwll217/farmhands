@@ -6,11 +6,11 @@ import {
   Icon,
   GridColumn,
 } from "semantic-ui-react";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import EventDetailedMap from "./EventDetailedMap";
-import { useState } from "react";
+import {useState} from "react";
 
-export default function EventDetailedInfo({ event }) {
+export default function EventDetailedInfo({event}) {
   const [mapOpen, toggleOpenMap] = useState(false);
 
   return (
@@ -53,7 +53,7 @@ export default function EventDetailedInfo({ event }) {
           </GridColumn>
         </Grid>
       </Segment>
-      {mapOpen && <EventDetailedMap latLng={event.venue.latlng} />}
+      {mapOpen && <EventDetailedMap latLng={event.venue.latLng} />}
     </SegmentGroup>
   );
 }
