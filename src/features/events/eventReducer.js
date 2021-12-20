@@ -10,9 +10,10 @@ import {
 const initialState = {
   events: [],
   comments: [],
+  moreEvents: false,
 };
 
-export default function eventReducer(state = initialState, { type, payload }) {
+export default function eventReducer(state = initialState, {type, payload}) {
   switch (type) {
     case CREATE_EVENT:
       return {
@@ -35,7 +36,8 @@ export default function eventReducer(state = initialState, { type, payload }) {
     case FETCH_EVENTS:
       return {
         ...state,
-        events: payload,
+        events: payload.events,
+        moreEvents: payload.moreEvents,
       };
     case LISTEN_TO_EVENTS_CHAT:
       return {

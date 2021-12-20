@@ -1,20 +1,23 @@
 import {useSelector} from "react-redux";
-import {Grid, GridColumn} from "semantic-ui-react";
+import {Button, Grid, GridColumn} from "semantic-ui-react";
 import EventFilters from "./EventFilters";
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListPlaceholder";
 import {listenToEventsFromFirestore} from "../../../app/firestore/firestoreService";
-import {listenToEvents} from "../eventActions";
+import {fetchEvents, listenToEvents} from "../eventActions";
 import {useDispatch} from "react-redux";
 import useFirestoreCollection from "../../../app/hooks/useFirestoreCollection";
 import {useState} from "react";
 import EventsFeed from "./EventsFeed";
+import {useEffect} from "react";
 
 export default function EventDashboard() {
+  const limit = 2;
   const dispatch = useDispatch();
   const {events} = useSelector((state) => state.event);
   const {loading} = useSelector((state) => state.async);
   const {authenticated} = useSelector((state) => state.auth);
+  const [lastDocSnapshot, setLastDocSnapshot] = useState(null);
   const [predicate, setPredicate] = useState(
     new Map([
       ["startDate", new Date()],
@@ -22,15 +25,23 @@ export default function EventDashboard() {
     ])
   );
 
+  useEffect(() => {
+    dispatch(fetchEvents(predicate, limit)).then((lastVisible) => {
+      setLastDocSnapshot(lastVisible);
+    });
+  }, [dispatch, predicate]);
+
+  function handleFetchNextEvents() {
+    dispatch(fetchEvents(predicate, limit, lastDocSnapshot)).then(
+      (lastVisible) => {
+        setLastDocSnapshot(lastVisible);
+      }
+    );
+  }
+
   function handleSetPredicate(key, value) {
     setPredicate(new Map(predicate.set(key, value)));
   }
-
-  useFirestoreCollection({
-    query: () => listenToEventsFromFirestore(predicate),
-    data: (events) => dispatch(listenToEvents(events)),
-    deps: [dispatch, predicate],
-  });
 
   return (
     <Grid>
@@ -43,6 +54,12 @@ export default function EventDashboard() {
           </>
         )}
         <EventList events={events} />
+        <Button
+          onClick={handleFetchNextEvents}
+          color='green'
+          content='More...'
+          floated='right'
+        />
       </GridColumn>
       <GridColumn width={6}>
         {authenticated && <EventsFeed />}
