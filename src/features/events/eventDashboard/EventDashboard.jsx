@@ -1,12 +1,12 @@
 import {useSelector} from "react-redux";
-import {Button, Grid, GridColumn, Loader} from "semantic-ui-react";
+import {Grid, GridColumn, Loader} from "semantic-ui-react";
 import EventFilters from "./EventFilters";
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListPlaceholder";
-import {listenToEventsFromFirestore} from "../../../app/firestore/firestoreService";
-import {fetchEvents, listenToEvents} from "../eventActions";
+
+import {clearEvents, fetchEvents, listenToEvents} from "../eventActions";
 import {useDispatch} from "react-redux";
-import useFirestoreCollection from "../../../app/hooks/useFirestoreCollection";
+
 import {useState} from "react";
 import EventsFeed from "./EventsFeed";
 import {useEffect} from "react";
@@ -32,6 +32,9 @@ export default function EventDashboard() {
       setLastDocSnapshot(lastVisible);
       setLoadingInitial(false);
     });
+    return () => {
+      dispatch(clearEvents());
+    };
   }, [dispatch, predicate]);
 
   function handleFetchNextEvents() {
@@ -43,6 +46,8 @@ export default function EventDashboard() {
   }
 
   function handleSetPredicate(key, value) {
+    dispatch(clearEvents());
+    setLastDocSnapshot(null);
     setPredicate(new Map(predicate.set(key, value)));
   }
 

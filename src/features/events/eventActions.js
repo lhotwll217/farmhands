@@ -13,6 +13,8 @@ import {
   FETCH_EVENTS,
   LISTEN_TO_EVENTS_CHAT,
   UPDATE_EVENT,
+  LISTEN_TO_SELECTED_EVENT,
+  CLEAR_EVENTS,
 } from "./eventConstants";
 
 export function fetchEvents(predicate, limit, lastDocSnapshot) {
@@ -37,10 +39,10 @@ export function fetchEvents(predicate, limit, lastDocSnapshot) {
   };
 }
 
-export function listenToEvents(events) {
+export function listenToSelectedEvent(event) {
   return {
-    type: FETCH_EVENTS,
-    payload: events,
+    type: LISTEN_TO_SELECTED_EVENT,
+    payload: event,
   };
 }
 export function createEvent(event) {
@@ -66,5 +68,11 @@ export function listenToEventChat(comments) {
   return {
     type: LISTEN_TO_EVENTS_CHAT,
     payload: comments,
+  };
+}
+
+export function clearEvents() {
+  return {
+    type: CLEAR_EVENTS,
   };
 }

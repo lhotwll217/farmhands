@@ -1,16 +1,16 @@
 /* global google */
-import { Header, Segment, Button, Confirm } from "semantic-ui-react";
-import { Link, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { listenToEvents } from "../eventActions";
-import { Formik, Form } from "formik";
+import {Header, Segment, Button, Confirm} from "semantic-ui-react";
+import {Link, Redirect} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {listenToSelectedEvent} from "../eventActions";
+import {Formik, Form} from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput.jsx";
 import MyDateInput from "../../../app/common/form/MyDateInput.jsx";
-import { categoryOptions } from "../../../app/common/form/categoryOptions.js";
+import {categoryOptions} from "../../../app/common/form/categoryOptions.js";
 import MyPlaceInput from "../../../app/common/form/MyPlaceInput";
 import useFirestoreDoc from "../../../app/hooks/useFirstoreDoc";
 import {
@@ -20,16 +20,14 @@ import {
   updateEventInFirestore,
 } from "../../../app/firestore/firestoreService";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-import { toast } from "react-toastify";
-import { useState } from "react";
+import {toast} from "react-toastify";
+import {useState} from "react";
 
-export default function EventForm({ match, history }) {
+export default function EventForm({match, history}) {
   const dispatch = useDispatch();
-  const selectedEvent = useSelector((state) =>
-    state.event.events.find((e) => e.id === match.params.id)
-  );
+  const {selectedEvent} = useSelector((state) => state.event);
 
-  const { loading, error } = useSelector((state) => state.async);
+  const {loading, error} = useSelector((state) => state.async);
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -61,7 +59,7 @@ export default function EventForm({ match, history }) {
   useFirestoreDoc({
     shouldExecute: !!match.params.id,
     query: () => listenToEventFromFirestore(match.params.id),
-    data: (event) => dispatch(listenToEvents([event])),
+    data: (event) => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id],
   });
 
@@ -69,8 +67,8 @@ export default function EventForm({ match, history }) {
     title: "",
     category: "",
     description: "",
-    city: { address: "", latLng: null },
-    venue: { address: "", latLng: null },
+    city: {address: "", latLng: null},
+    venue: {address: "", latLng: null},
     date: "",
   };
 
@@ -83,7 +81,7 @@ export default function EventForm({ match, history }) {
       <Header content={selectedEvent ? "Edit The Event" : "Create New Event"} />
       <Formik
         initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting }) => {
+        onSubmit={async (values, {setSubmitting}) => {
           try {
             selectedEvent
               ? await updateEventInFirestore(values)
@@ -97,7 +95,7 @@ export default function EventForm({ match, history }) {
         }}
         validationSchema={validationSchema}
       >
-        {({ isSubmitting, dirty, isValid, values }) => (
+        {({isSubmitting, dirty, isValid, values}) => (
           <Form className='ui form'>
             <Header sub color='teal' content='Event Details' />
             <MyTextInput placeholder='Event Title' name='title' />
