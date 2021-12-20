@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {Button, Grid, GridColumn} from "semantic-ui-react";
+import {Button, Grid, GridColumn, Loader} from "semantic-ui-react";
 import EventFilters from "./EventFilters";
 import EventList from "./EventList";
 import EventListItemPlaceholder from "./EventListPlaceholder";
@@ -56,14 +56,11 @@ export default function EventDashboard() {
             <EventListItemPlaceholder />
           </>
         )}
-        <EventList events={events} />
-        <Button
+        <EventList
+          events={events}
+          getNextEvents={handleFetchNextEvents}
           loading={loading}
-          disabled={!moreEvents}
-          onClick={handleFetchNextEvents}
-          color='green'
-          content='More...'
-          floated='right'
+          moreEvents={moreEvents}
         />
       </GridColumn>
       <GridColumn width={6}>
@@ -73,6 +70,9 @@ export default function EventDashboard() {
           setPredicate={handleSetPredicate}
           loading={loading}
         />
+      </GridColumn>
+      <GridColumn width={10}>
+        <Loader active={loading} />
       </GridColumn>
     </Grid>
   );
