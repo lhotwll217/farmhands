@@ -36,7 +36,8 @@ export default function eventReducer(state = initialState, {type, payload}) {
     case FETCH_EVENTS:
       return {
         ...state,
-        events: payload.events,
+        // Making pagination accumulate
+        events: [...state.events, ...payload.events],
         moreEvents: payload.moreEvents,
       };
     case LISTEN_TO_EVENTS_CHAT:

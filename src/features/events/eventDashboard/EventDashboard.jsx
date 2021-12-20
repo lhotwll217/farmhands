@@ -14,10 +14,11 @@ import {useEffect} from "react";
 export default function EventDashboard() {
   const limit = 2;
   const dispatch = useDispatch();
-  const {events} = useSelector((state) => state.event);
+  const {events, moreEvents} = useSelector((state) => state.event);
   const {loading} = useSelector((state) => state.async);
   const {authenticated} = useSelector((state) => state.auth);
   const [lastDocSnapshot, setLastDocSnapshot] = useState(null);
+  const [loadingInitial, setLoadingInitial] = useState(false);
   const [predicate, setPredicate] = useState(
     new Map([
       ["startDate", new Date()],
@@ -26,8 +27,10 @@ export default function EventDashboard() {
   );
 
   useEffect(() => {
+    setLoadingInitial(true);
     dispatch(fetchEvents(predicate, limit)).then((lastVisible) => {
       setLastDocSnapshot(lastVisible);
+      setLoadingInitial(false);
     });
   }, [dispatch, predicate]);
 
@@ -46,7 +49,7 @@ export default function EventDashboard() {
   return (
     <Grid>
       <GridColumn width={10}>
-        {loading && (
+        {loadingInitial && (
           <>
             <EventListItemPlaceholder />
             <EventListItemPlaceholder />
@@ -55,6 +58,8 @@ export default function EventDashboard() {
         )}
         <EventList events={events} />
         <Button
+          loading={loading}
+          disabled={!moreEvents}
           onClick={handleFetchNextEvents}
           color='green'
           content='More...'
