@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import {
   Button,
@@ -14,9 +15,14 @@ import {openModal} from "../../app/common/form/modals/modalReducer";
 export default function UnauthModal({history}) {
   const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
+  const {prevLocation} = useSelector((state) => state.auth);
 
   function handleClose() {
-    history.goBack();
+    if (history && prevLocation) {
+      history.push(prevLocation.pathname);
+    } else {
+      history.push("/events");
+    }
     setOpen(false);
   }
 
