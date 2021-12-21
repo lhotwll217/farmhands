@@ -1,12 +1,14 @@
-import { createStore, applyMiddleware } from "redux";
+import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension";
 import rootReducer from "./rootReducer";
-import { verifyAuth } from "../../features/auth/authActions";
+import {verifyAuth} from "../../features/auth/authActions";
+import {createBrowserHistory} from "history";
 
+export const history = createBrowserHistory();
 export function configureStore() {
   const store = createStore(
-    rootReducer,
+    rootReducer(history),
     composeWithDevTools(applyMiddleware(thunk))
   );
 
