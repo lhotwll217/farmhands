@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {
   SegmentGroup,
   Segment,
@@ -9,13 +9,15 @@ import {
   ItemContent,
   Image,
 } from "semantic-ui-react";
-import { format } from "date-fns";
-import { toast } from "react-toastify";
+import {format} from "date-fns";
+import {toast} from "react-toastify";
 import {
   addUserAttendance,
   cancelUserAttendance,
 } from "../../../app/firestore/firestoreService";
-import { useState } from "react";
+import {useState} from "react";
+import {useSelector} from "react-redux";
+import UnauthModal from "../../auth/UnauthModal";
 
 // const eventImageStyle = {
 //   filter: "brightness(30%)",
@@ -30,9 +32,10 @@ import { useState } from "react";
 //   color: "white",
 // };
 
-export default function EventDetailedHeader({ event, isHost, isGoing }) {
+export default function EventDetailedHeader({event, isHost, isGoing}) {
   const [loading, setLoading] = useState(false);
-
+  const {authenticated} = useSelector((state) => state.auth);
+  const [modalOpen, setModalOpen] = useState(false);
   async function handleUserJoinEvent() {
     setLoading(true);
     try {
@@ -55,73 +58,83 @@ export default function EventDetailedHeader({ event, isHost, isGoing }) {
   }
 
   return (
-    <SegmentGroup>
-      <Segment basic attached='top' style={{ padding: "0" }}>
-        <Image
-          src={`/assets/categoryImages/${event.category}.jpg`}
-          fluid
-          style={{ filter: "brightness(30%)" }}
-        />
+    <>
+      {modalOpen && <UnauthModal setModalOpen={setModalOpen} />}
+      <SegmentGroup>
+        <Segment basic attached='top' style={{padding: "0"}}>
+          <Image
+            src={`/assets/categoryImages/${event.category}.jpg`}
+            fluid
+            style={{filter: "brightness(30%)"}}
+          />
 
-        <Segment
-          basic
-          style={{
-            position: "absolute",
-            bottom: "5%",
-            left: "5%",
-            width: "100%",
-            height: "auto",
-            color: "white",
-          }}
-        >
-          <ItemGroup>
-            <Item>
-              <ItemContent>
-                <Header
-                  size='huge'
-                  content={event.title}
-                  style={{ color: "white" }}
-                />
-                <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
-                <p>
-                  Hosted by{" "}
-                  <strong>
-                    <Link to={`/profile/${event.hostUid}`}></Link>
-                    {event.hostedBy}
-                  </strong>
-                </p>
-              </ItemContent>
-            </Item>
-          </ItemGroup>
-        </Segment>
-      </Segment>
-
-      <Segment attached='bottom' clearing>
-        {!isHost && (
-          <>
-            {isGoing ? (
-              <Button onClick={handleUserLeaveEvent} loading={loading}>
-                Cancel My Place
-              </Button>
-            ) : (
-              <Button onClick={handleUserJoinEvent} loading={loading}>
-                Join Event
-              </Button>
-            )}
-          </>
-        )}
-
-        {isHost && (
-          <Button
-            as={Link}
-            to={`/manage/${event.id}`}
-            color='orange'
-            floated='right'
+          <Segment
+            basic
+            style={{
+              position: "absolute",
+              bottom: "5%",
+              left: "5%",
+              width: "100%",
+              height: "auto",
+              color: "white",
+            }}
           >
-            Manage Event
-          </Button>
-        )}
-      </Segment>
-    </SegmentGroup>
+            <ItemGroup>
+              <Item>
+                <ItemContent>
+                  <Header
+                    size='huge'
+                    content={event.title}
+                    style={{color: "white"}}
+                  />
+                  <p>{format(event.date, "MMMM d, yyyy h:mm a")}</p>
+                  <p>
+                    Hosted by{" "}
+                    <strong>
+                      <Link to={`/profile/${event.hostUid}`}></Link>
+                      {event.hostedBy}
+                    </strong>
+                  </p>
+                </ItemContent>
+              </Item>
+            </ItemGroup>
+          </Segment>
+        </Segment>
+
+        <Segment attached='bottom' clearing>
+          {!isHost && (
+            <>
+              {isGoing ? (
+                <Button onClick={handleUserLeaveEvent} loading={loading}>
+                  Cancel My Place
+                </Button>
+              ) : (
+                <Button
+                  onClick={
+                    authenticated
+                      ? handleUserJoinEvent
+                      : () => setModalOpen(true)
+                  }
+                  loading={loading}
+                >
+                  Join Event
+                </Button>
+              )}
+            </>
+          )}
+
+          {isHost && (
+            <Button
+              as={Link}
+              to={`/manage/${event.id}`}
+              color='orange'
+              floated='right'
+            >
+              Manage Event
+            </Button>
+          )}
+        </Segment>
+      </SegmentGroup>
+    </>
   );
 }

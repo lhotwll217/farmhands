@@ -12,12 +12,17 @@ import {
 } from "semantic-ui-react";
 import {openModal} from "../../app/common/form/modals/modalReducer";
 
-export default function UnauthModal({history}) {
+export default function UnauthModal({history, setModalOpen}) {
   const [open, setOpen] = useState(true);
   const dispatch = useDispatch();
   const {prevLocation} = useSelector((state) => state.auth);
 
   function handleClose() {
+    if (!history) {
+      setOpen(false);
+      setModalOpen(false);
+      return;
+    }
     if (history && prevLocation) {
       history.push(prevLocation.pathname);
     } else {
@@ -26,6 +31,11 @@ export default function UnauthModal({history}) {
     setOpen(false);
   }
 
+  function handleOpenLoginModal(modalType) {
+    dispatch(openModal({modalType}));
+    setOpen(false);
+    setModalOpen(false);
+  }
   return (
     <Modal open={open} size='mini' onClose={handleClose}>
       <ModalHeader content='You need to be signed in to do that' />
@@ -36,14 +46,14 @@ export default function UnauthModal({history}) {
             fluid
             color='teal'
             content='Login'
-            onClick={() => dispatch(openModal({modalType: "LoginForm"}))}
+            onClick={() => handleOpenLoginModal("LoginForm")}
           />
           <ButtonOr />
           <Button
             fluid
             color='green'
             content='Register'
-            onClick={() => dispatch(openModal({modalType: "RegisterForm"}))}
+            onClick={() => handleOpenLoginModal("RegisterForm")}
           />
         </ButtonGroup>
         <Divider />
