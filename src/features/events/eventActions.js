@@ -15,14 +15,16 @@ import {
   UPDATE_EVENT,
   LISTEN_TO_SELECTED_EVENT,
   CLEAR_EVENTS,
+  SET_FILTER,
 } from "./eventConstants";
 
-export function fetchEvents(predicate, limit, lastDocSnapshot) {
+export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
       const snapshot = await fetchEventsFromFirestore(
-        predicate,
+        filter,
+        startDate,
         limit,
         lastDocSnapshot
       ).get();
@@ -30,12 +32,24 @@ export function fetchEvents(predicate, limit, lastDocSnapshot) {
       const moreEvents = snapshot.docs.length >= limit;
       const events = snapshot.docs.map((doc) => dataFromSnapshot(doc));
 
-      dispatch({type: FETCH_EVENTS, payload: {events, moreEvents}});
+      dispatch({type: FETCH_EVENTS, payload: {events, moreEvents, lastVisible}});
       dispatch(asyncActionFinish());
-      return lastVisible;
     } catch (error) {
       dispatch(asyncActionError(error));
     }
+  };
+}
+
+export function setFilter(value) {
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({type: SET_FILTER, payload: value});
+  };
+}
+export function setStartDate(date) {
+  return function (dispatch) {
+    dispatch(clearEvents());
+    dispatch({type: SET_FILTER, payload: date);
   };
 }
 
