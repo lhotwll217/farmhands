@@ -8,7 +8,6 @@ import "react-calendar/dist/Calendar.css";
 import "./app/layout/styles.css";
 import App from "./app/layout/App.jsx";
 import reportWebVitals from "./reportWebVitals";
-import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {configureStore, history} from "./app/store/configureStore";
 import ScrollToTop from "./app/layout/ScrollToTop";

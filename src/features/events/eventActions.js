@@ -16,6 +16,7 @@ import {
   LISTEN_TO_SELECTED_EVENT,
   CLEAR_EVENTS,
   SET_FILTER,
+  SET_START_DATE,
 } from "./eventConstants";
 
 export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
@@ -32,7 +33,10 @@ export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
       const moreEvents = snapshot.docs.length >= limit;
       const events = snapshot.docs.map((doc) => dataFromSnapshot(doc));
 
-      dispatch({type: FETCH_EVENTS, payload: {events, moreEvents, lastVisible}});
+      dispatch({
+        type: FETCH_EVENTS,
+        payload: {events, moreEvents, lastVisible},
+      });
       dispatch(asyncActionFinish());
     } catch (error) {
       dispatch(asyncActionError(error));
@@ -49,7 +53,7 @@ export function setFilter(value) {
 export function setStartDate(date) {
   return function (dispatch) {
     dispatch(clearEvents());
-    dispatch({type: SET_FILTER, payload: date);
+    dispatch({type: SET_START_DATE, payload: date});
   };
 }
 
