@@ -12,6 +12,7 @@ import {Provider} from "react-redux";
 import {configureStore, history} from "./app/store/configureStore";
 import ScrollToTop from "./app/layout/ScrollToTop";
 import {ConnectedRouter} from "connected-react-router";
+import {register as registerServiceWorker} from "./serviceWorkerRegistration";
 
 const store = configureStore();
 
@@ -42,3 +43,4 @@ render();
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+registerServiceWorker();
