@@ -13,11 +13,11 @@ import {
   Label,
 } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
-import { Link } from "react-router-dom";
-import { format } from "date-fns";
-import { deleteEventInFirestore } from "../../../app/firestore/firestoreService";
+import {Link} from "react-router-dom";
+import {format} from "date-fns";
+import {deleteEventInFirestore} from "../../../app/firestore/firestoreService";
 
-export default function EventListItem({ event }) {
+export default function EventListItem({event}) {
   return (
     <SegmentGroup>
       <Segment>
@@ -32,7 +32,7 @@ export default function EventListItem({ event }) {
               </ItemDescription>
               {event.isCancelled && (
                 <Label
-                  style={{ top: "-40px" }}
+                  style={{top: "-40px"}}
                   ribbon='right'
                   color='red'
                   content='This event has been cancelled'
@@ -57,12 +57,6 @@ export default function EventListItem({ event }) {
       </Segment>
       <Segment clearing>
         <div> {event.description}</div>
-        <Button
-          onClick={() => deleteEventInFirestore(event.id)}
-          color='red'
-          content='Delete'
-          floated='right'
-        />
         <Button
           as={Link}
           to={`/events/${event.id}`}
