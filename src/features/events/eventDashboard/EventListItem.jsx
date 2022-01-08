@@ -15,7 +15,6 @@ import {
 import EventListAttendee from "./EventListAttendee";
 import {Link} from "react-router-dom";
 import {format} from "date-fns";
-import {deleteEventInFirestore} from "../../../app/firestore/firestoreService";
 
 export default function EventListItem({event}) {
   return (

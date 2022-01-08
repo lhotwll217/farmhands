@@ -17,6 +17,7 @@ import {
   CLEAR_EVENTS,
   SET_FILTER,
   SET_START_DATE,
+  CLEAR_SELECTED_EVENT,
 } from "./eventConstants";
 
 export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
@@ -57,6 +58,11 @@ export function setStartDate(date) {
   };
 }
 
+export function clearSelectedEvent() {
+  return {
+    type: CLEAR_SELECTED_EVENT,
+  };
+}
 export function listenToSelectedEvent(event) {
   return {
     type: LISTEN_TO_SELECTED_EVENT,

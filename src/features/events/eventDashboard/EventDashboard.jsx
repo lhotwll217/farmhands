@@ -13,7 +13,7 @@ import {useEffect} from "react";
 import {RETAIN_STATE} from "../eventConstants";
 
 export default function EventDashboard() {
-  const limit = 2;
+  const limit = 3;
   const dispatch = useDispatch();
   const {events, moreEvents, filter, startDate, lastVisible, retainState} =
     useSelector((state) => state.event);

@@ -1,6 +1,7 @@
 import {
   CLEAR_COMMENTS,
   CLEAR_EVENTS,
+  CLEAR_SELECTED_EVENT,
   CREATE_EVENT,
   DELETE_EVENT,
   FETCH_EVENTS,
@@ -19,6 +20,7 @@ const initialState = {
   selectedEvent: null,
   lastVisible: null,
   filter: "all",
+  startDate: new Date(),
   retainState: false,
 };
 
@@ -64,6 +66,12 @@ export default function eventReducer(state = initialState, {type, payload}) {
       return {
         ...state,
         selectedEvent: payload,
+      };
+
+    case CLEAR_SELECTED_EVENT:
+      return {
+        ...state,
+        selectedEvent: null,
       };
 
     case CLEAR_EVENTS:

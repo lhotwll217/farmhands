@@ -7,29 +7,34 @@ import {setFilter, setStartDate} from "../eventActions";
 export default function EventFilters({loading}) {
   const dispatch = useDispatch();
   const {filter, startDate} = useSelector((state) => state.event);
+  const {authenticated} = useSelector((state) => state.auth);
+
   return (
     <>
-      <Menu vertical size='large' style={{width: "100%"}}>
-        <Header icon='filter' attached color='teal' content='Filters' />
-        <MenuItem
-          content='All Events'
-          active={filter === "all"}
-          onClick={() => dispatch(setFilter("all"))}
-          disabled={loading}
-        />
-        <MenuItem
-          content='Going'
-          active={filter === "isGoing"}
-          onClick={() => dispatch(setFilter("isGoing"))}
-          disabled={loading}
-        />
-        <MenuItem
-          content='Hosting'
-          active={filter === "isHost"}
-          onClick={() => dispatch(setFilter("isHost"))}
-          disabled={loading}
-        />
-      </Menu>
+      {authenticated && (
+        <Menu vertical size='large' style={{width: "100%"}}>
+          <Header icon='filter' attached color='teal' content='Filters' />
+          <MenuItem
+            content='All Events'
+            active={filter === "all"}
+            onClick={() => dispatch(setFilter("all"))}
+            disabled={loading}
+          />
+          <MenuItem
+            content='Going'
+            active={filter === "isGoing"}
+            onClick={() => dispatch(setFilter("isGoing"))}
+            disabled={loading}
+          />
+          <MenuItem
+            content='Hosting'
+            active={filter === "isHost"}
+            onClick={() => dispatch(setFilter("isHost"))}
+            disabled={loading}
+          />
+        </Menu>
+      )}
+
       <Header icon='calendar' attached color='teal' content='Select Date' />
       <Calendar
         onChange={(date) => dispatch(setStartDate(date))}

@@ -3,7 +3,7 @@ import {Header, Segment, Button, Confirm} from "semantic-ui-react";
 import {Link, Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
-import {listenToSelectedEvent} from "../eventActions";
+import {clearSelectedEvent, listenToSelectedEvent} from "../eventActions";
 import {Formik, Form} from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
@@ -22,14 +22,20 @@ import {
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import {toast} from "react-toastify";
 import {useState} from "react";
+import {useEffect} from "react";
 
-export default function EventForm({match, history}) {
+export default function EventForm({match, history, location}) {
   const dispatch = useDispatch();
   const {selectedEvent} = useSelector((state) => state.event);
 
   const {loading, error} = useSelector((state) => state.async);
   const [loadingCancel, setLoadingCancel] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname !== "/createEvent") return;
+    dispatch(clearSelectedEvent());
+  }, [location.pathname, dispatch]);
 
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),
@@ -57,7 +63,9 @@ export default function EventForm({match, history}) {
   }
 
   useFirestoreDoc({
-    shouldExecute: !!match.params.id,
+    shouldExecute:
+      match.params.id !== selectedEvent?.id &&
+      location.pathname !== "/createEvent",
     query: () => listenToEventFromFirestore(match.params.id),
     data: (event) => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id],
@@ -80,6 +88,7 @@ export default function EventForm({match, history}) {
     <Segment clearing>
       <Header content={selectedEvent ? "Edit The Event" : "Create New Event"} />
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={async (values, {setSubmitting}) => {
           try {
@@ -129,6 +138,7 @@ export default function EventForm({match, history}) {
               showTimeSelect
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm a'
+              autoComplete='off'
             />
 
             <Button
